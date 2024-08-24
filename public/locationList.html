@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>위치 목록</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        button { margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>위치 목록</h1>
+    <button onclick="selectLocation('A')">A</button>
+    <button onclick="selectLocation('B')">B</button>
+    <button onclick="selectLocation('C')">C</button>
+    <button onclick="selectLocation('D')">D</button>
+    <button onclick="goHome()">홈으로</button>
+
+    <script>
+        function selectLocation(location) {
+            // 선택한 위치 정보를 배달 현황 페이지로 전달
+            window.location.href = `deliveryStatus.html?location=${location}`;
+        }
+
+        function goHome() {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>

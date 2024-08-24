@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>배달 현황</title>
+</head>
+<body>
+    <h1>배달 현황</h1>
+    <div id="locationDisplay"></div>
+
+    <script>
+        // URL 쿼리 파라미터에서 위치 가져오기
+        const urlParams = new URLSearchParams(window.location.search);
+        const location = urlParams.get('location');
+
+        // 위치 정보를 화면에 표시
+        if (location) {
+            document.getElementById('locationDisplay').innerText = `선택한 위치: ${location}`;
+        } else {
+            document.getElementById('locationDisplay').innerText = '위치가 선택되지 않았습니다.';
+        }
+    </script>
+</body>
+</html>

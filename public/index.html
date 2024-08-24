@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배달 예약</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .button-list {
+            margin-bottom: 20px;
+        }
+        .order-list {
+            margin-top: 20px;
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+    <script>
+        async function fetchOrders() {
+            const response = await fetch('http://localhost:3000/api/orders');
+            const orders = await response.json();
+            const orderList = document.getElementById('orderList');
+            orderList.innerHTML = ''; // 기존 목록 초기화
+            orders.forEach(order => {
+                addOrderToDisplay(order);
+            });
+        }
+
+        async function addOrder(buttonName) {
+            const response = await fetch('http://localhost:3000/api/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ order: buttonName }),
+            });
+            await fetchOrders(); // 주문 목록 새로 고침
+        }
+
+        async function removeOrder(buttonName) {
+            await fetch(`http://localhost:3000/api/orders/${buttonName}`, {
+                method: 'DELETE',
+            });
+            await fetchOrders(); // 주문 목록 새로 고침
+        }
+
+        function addOrderToDisplay(order) {
+            const orderList = document.getElementById('orderList');
+            const orderItem = document.createElement('div');
+            orderItem.classList.add('order-item');
+            orderItem.innerHTML = `
+                ${order}
+                <button onclick="removeOrder('${order}')">삭제</button>
+            `;
+            orderList.appendChild(orderItem);
+        }
+
+        window.onload = fetchOrders; // 페이지 로드 시 주문 목록 가져오기
+    </script>
+</head>
+<body>
+    <h1>배달 예약</h1>
+    
+    <h2>위치 선택</h2>
+    <div class="button-list">
+        <button onclick="addOrder('A')">A</button>
+        <button onclick="addOrder('B')">B</button>
+        <button onclick="addOrder('C')">C</button>
+        <button onclick="addOrder('D')">D</button>
+    </div>
+
+    <h2>배달 현황</h2>
+    <div class="order-list" id="orderList">
+        <!-- 배달 현황이 여기에 추가됩니다. -->
+    </div>
+</body>
+</html>
